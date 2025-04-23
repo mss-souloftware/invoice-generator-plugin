@@ -1,30 +1,5 @@
 <?php
 
-// Add menu item
-add_action('admin_menu', 'igpm_register_admin_menu');
-function igpm_register_admin_menu()
-{
-    add_menu_page(
-        'Invoice Generator',
-        'Invoice Generator',
-        'manage_options',
-        'igpm_dashboard',
-        'igpm_product_page',
-        'dashicons-media-document',
-        26
-    );
-
-    add_menu_page(
-        'Invoice Generator',
-        'Invoice Generator',
-        'manage_options',
-        'igpm_dashboard',
-        'igpm_product_page',
-        'dashicons-media-document',
-        26
-    );
-}
-
 // Product Manager Page
 function igpm_product_page()
 {

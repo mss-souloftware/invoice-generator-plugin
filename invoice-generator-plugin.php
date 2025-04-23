@@ -18,7 +18,7 @@ register_activation_hook(__FILE__, 'igpm_create_database_tables');
 
 // Load admin menu
 if (is_admin()) {
-    require_once plugin_dir_path(__FILE__) . 'admin/products-page.php';
+    require_once plugin_dir_path(__FILE__) . 'utils/functions.php';
 }
 
 function igpmScripts()

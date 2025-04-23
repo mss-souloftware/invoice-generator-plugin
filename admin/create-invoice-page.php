@@ -149,7 +149,6 @@ function igpm_create_invoice_page()
     </div>
 
     <?php
-    // Enqueue jQuery script
-    wp_enqueue_script('igpm-invoice-script', plugin_dir_url(__FILE__) . '../assets/script.js', ['jquery'], '1.0', true);
+
 }
 ?>

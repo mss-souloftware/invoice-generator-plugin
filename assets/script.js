@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
     function calculateRow($row) {
+        console.log("Script is working")
         const qty = parseFloat($row.find('.quantity').val()) || 0;
         const price = parseFloat($row.find('.unit-price').val()) || 0;
         const discount = parseFloat($row.find('.discount').val()) || 0;
