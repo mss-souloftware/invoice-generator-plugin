@@ -21,10 +21,10 @@ function igpm_create_invoice_page()
         $balance = floatval($_POST['balance']);
         $amount_in_words = sanitize_text_field($_POST['amount_in_words']);
 
-        $invoice_no = 'INV-' . time();
+
 
         $wpdb->insert($invoice_table, [
-            'invoice_no' => $invoice_no,
+            'invoice_no' => '',
             'date' => $date,
             'customer_name' => $customer_name,
             'customer_address' => $customer_address,
@@ -38,6 +38,13 @@ function igpm_create_invoice_page()
         ]);
 
         $invoice_id = $wpdb->insert_id;
+        $invoice_no = 'INV-' . (20000 + $invoice_id);
+
+        $wpdb->update(
+            $invoice_table,
+            ['invoice_no' => $invoice_no],
+            ['id' => $invoice_id]
+        );
 
         foreach ($_POST['product'] as $i => $product_name) {
             $wpdb->insert($invoice_items_table, [
@@ -70,7 +77,8 @@ function igpm_create_invoice_page()
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <td><input name="invoice_date" type="date" class="regular-text" value="<?= date('Y-m-d') ?>" required>
+                    <td><input name="invoice_date" type="date" class="regular-text" value="<?php echo date('Y-m-d') ?>"
+                            required>
                     </td>
                 </tr>
             </table>
@@ -83,8 +91,8 @@ function igpm_create_invoice_page()
                         <th>Qty</th>
                         <th>Unit</th>
                         <th>Unit Price</th>
-                        <th>Discount %</th>
                         <th>Amount</th>
+                        <th>Discount %</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -93,10 +101,11 @@ function igpm_create_invoice_page()
                         <td>
                             <select name="product[]" class="product-select">
                                 <?php foreach ($products as $p): ?>
-                                    <option value="<?= esc_attr($p->name) ?>" data-unit="<?= esc_attr($p->unit) ?>"
-                                        data-price="<?= esc_attr($p->unit_price) ?>"
-                                        data-discount="<?= esc_attr($p->discount_percent) ?>">
-                                        <?= esc_html($p->name) ?>
+                                    <option value="<?php echo esc_attr($p->name) ?>"
+                                        data-unit="<?php echo esc_attr($p->unit) ?>"
+                                        data-price="<?php echo esc_attr($p->unit_price) ?>"
+                                        data-discount="<?php echo esc_attr($p->discount_percent) ?>">
+                                        <?php echo esc_html($p->name) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -104,8 +113,12 @@ function igpm_create_invoice_page()
                         <td><input type="number" name="quantity[]" class="quantity" value="1" required></td>
                         <td><input type="text" name="unit[]" class="unit" readonly></td>
                         <td><input type="text" name="unit_price[]" class="unit-price" readonly></td>
-                        <td><input type="text" name="discount[]" class="discount" readonly></td>
                         <td><input type="text" name="amount[]" class="amount" readonly></td>
+                        <td>
+                            <input type="text" name="discount[]" class="discount">
+                            <div class="discounted-amount" style="font-size: 11px; color: #0073aa;">Discount: ₨ 0.00</div>
+                        </td>
+
                         <td><button type="button" class="button remove-row">Remove</button></td>
                     </tr>
                 </tbody>
@@ -138,10 +151,7 @@ function igpm_create_invoice_page()
                     <th>Balance</th>
                     <td><input name="balance" class="regular-text" readonly></td>
                 </tr>
-                <tr>
-                    <th>Amount in Words</th>
-                    <td><input name="amount_in_words" class="regular-text" required></td>
-                </tr>
+
             </table>
 
             <p><input type="submit" name="igpm_save_invoice" class="button button-primary" value="Save Invoice"></p>

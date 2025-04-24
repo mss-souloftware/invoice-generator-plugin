@@ -17,7 +17,6 @@ function igpm_product_page()
             'name' => $name,
             'unit' => $unit,
             'unit_price' => $unit_price,
-            'discount_percent' => $discount
         ]);
         echo '<div class="updated"><p>Product added!</p></div>';
     }
@@ -47,10 +46,6 @@ function igpm_product_page()
                     <th><label for="unit_price">Unit Price</label></th>
                     <td><input name="unit_price" required type="number" step="0.01" class="regular-text"></td>
                 </tr>
-                <tr>
-                    <th><label for="discount_percent">Discount %</label></th>
-                    <td><input name="discount_percent" type="number" step="0.01" class="regular-text" value="0"></td>
-                </tr>
             </table>
             <p><input type="submit" class="button button-primary" name="igpm_add_product" value="Add Product"></p>
         </form>
@@ -62,18 +57,16 @@ function igpm_product_page()
                     <th>Name</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
-                    <th>Discount (%)</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($products as $product): ?>
                     <tr>
-                        <td><?= esc_html($product->name) ?></td>
-                        <td><?= esc_html($product->unit) ?></td>
-                        <td>₨ <?= number_format($product->unit_price, 2) ?></td>
-                        <td><?= number_format($product->discount_percent, 2) ?></td>
-                        <td><a href="?page=igpm_dashboard&delete=<?= $product->id ?>"
+                        <td><?php echo esc_html($product->name) ?></td>
+                        <td><?php echo esc_html($product->unit) ?></td>
+                        <td>Rs <?php echo number_format($product->unit_price, 2) ?></td>
+                        <td><a href="?page=igpm_dashboard&delete=<?php echo $product->id ?>"
                                 onclick="return confirm('Delete this product?')">Delete</a></td>
                     </tr>
                 <?php endforeach; ?>

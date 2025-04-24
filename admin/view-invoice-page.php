@@ -23,10 +23,10 @@ function igpm_view_invoice_page()
 
         <div style="margin-top: 20px;">
             <strong>Bill To:</strong><br>
-            <?= esc_html($invoice->customer_name) ?><br>
-            <?= esc_html($invoice->customer_address) ?><br>
-            <strong>Invoice No.:</strong> <?= esc_html($invoice->invoice_no) ?><br>
-            <strong>Date:</strong> <?= esc_html(date('d/m/Y', strtotime($invoice->date))) ?>
+            <?php echo esc_html($invoice->customer_name) ?><br>
+            <?php echo esc_html($invoice->customer_address) ?><br>
+            <strong>Invoice No.:</strong> <?php echo esc_html($invoice->invoice_no) ?><br>
+            <strong>Date:</strong> <?php echo esc_html(date('d/m/Y', strtotime($invoice->date))) ?>
         </div>
 
         <table class="widefat striped" style="margin-top: 20px;">
@@ -48,13 +48,13 @@ function igpm_view_invoice_page()
                     $final_amount = $line_price - $discount_amt;
                     ?>
                     <tr>
-                        <td><?= $i + 1 ?></td>
-                        <td><?= esc_html($item->product_name) ?></td>
-                        <td><?= $item->quantity ?>         <?= esc_html($item->unit) ?></td>
-                        <td>₨ <?= number_format($item->unit_price, 2) ?></td>
-                        <td>₨ <?= number_format($line_price, 2) ?></td>
-                        <td>(<?= number_format($item->discount_percent, 0) ?>%)<br>₨ <?= number_format($discount_amt, 2) ?></td>
-                        <td>₨ <?= number_format($final_amount, 2) ?></td>
+                        <td><?php echo $i + 1 ?></td>
+                        <td><?php echo esc_html($item->product_name); ?></td>
+                        <td><?php echo $item->quantity; ?>         <?php echo esc_html($item->unit); ?></td>
+                        <td>Rs <?php echo number_format($item->unit_price, 2); ?></td>
+                        <td>Rs <?php echo number_format($line_price, 2); ?></td>
+                        <td>(<?php echo number_format($item->discount_percent, 0); ?>%)<br>Rs <?php echo number_format($discount_amt, 2); ?></td>
+                        <td>Rs <?php echo number_format($final_amount, 2); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -64,34 +64,34 @@ function igpm_view_invoice_page()
             <table class="widefat">
                 <tr>
                     <th>Sub Total</th>
-                    <td>₨ <?= number_format($invoice->subtotal, 2) ?></td>
+                    <td>Rs <?php echo number_format($invoice->subtotal, 2); ?></td>
                 </tr>
                 <tr>
                     <th>Discount</th>
-                    <td>₨ <?= number_format($invoice->total_discount, 2) ?></td>
+                    <td>Rs <?php echo number_format($invoice->total_discount, 2); ?></td>
                 </tr>
                 <tr>
                     <th>Round Off</th>
-                    <td>₨ <?= number_format($invoice->round_off, 2) ?></td>
+                    <td>Rs <?php echo number_format($invoice->round_off, 2); ?></td>
                 </tr>
                 <tr>
                     <th><strong>Total</strong></th>
-                    <td><strong>₨ <?= number_format($invoice->total, 2) ?></strong></td>
+                    <td><strong>Rs <?php echo number_format($invoice->total, 2); ?></strong></td>
                 </tr>
                 <tr>
                     <th>Received</th>
-                    <td>₨ <?= number_format($invoice->received, 2) ?></td>
+                    <td>Rs <?php echo number_format($invoice->received, 2); ?></td>
                 </tr>
                 <tr>
                     <th>Balance</th>
-                    <td>₨ <?= number_format($invoice->balance, 2) ?></td>
+                    <td>Rs <?php echo number_format($invoice->balance, 2); ?></td>
                 </tr>
             </table>
         </div>
 
         <div style="clear: both;"></div>
         <br><br>
-        <strong>Invoice Amount In Words:</strong> <?= esc_html($invoice->amount_in_words) ?><br><br>
+        <!-- <strong>Invoice Amount In Words:</strong> <?php esc_html($invoice->amount_in_words); ?><br><br> -->
         <strong>Terms And Conditions:</strong><br>
         Thanks for doing business with us!<br><br>
 

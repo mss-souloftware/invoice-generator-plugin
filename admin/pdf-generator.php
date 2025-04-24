@@ -26,48 +26,79 @@ function igpm_generate_invoice_pdf()
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
+            color: #000;
         }
 
         h1 {
             text-align: center;
-            border-bottom: 1px solid #000;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
+        }
+
+        .info {
+            margin-top: 20px;
+        }
+
+        .info strong {
+            display: inline-block;
+            width: 100px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         th,
         td {
             border: 1px solid #000;
             padding: 6px;
-            text-align: left;
+            text-align: center;
         }
 
-        .summary td {
-            border: none;
-            padding: 4px;
+        .summary-table {
+            width: 40%;
+            float: right;
+            border: 1px solid #000;
+            margin-top: 20px;
+        }
+
+        .summary-table td {
+            border: 1px solid #000;
+            padding: 6px;
+        }
+
+        .footer {
+            margin-top: 60px;
+            clear: both;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 40px;
         }
     </style>
 
     <h1>A.G MARKETING Invoice</h1>
 
-    <p>
-        <strong>Bill To:</strong><br>
-        <?= $invoice->customer_name ?><br>
-        <?= $invoice->customer_address ?><br>
-        <strong>Invoice No.:</strong> <?= $invoice->invoice_no ?><br>
+    <div class="info">
+        <strong>Bill To:</strong> <?= nl2br(esc_html($invoice->customer_name)) ?><br>
+        <strong>Address:</strong> <?= nl2br(esc_html($invoice->customer_address)) ?><br>
+        <strong>Invoice No.:</strong> <?= esc_html($invoice->invoice_no) ?><br>
         <strong>Date:</strong> <?= date('d/m/Y', strtotime($invoice->date)) ?>
-    </p>
+    </div>
 
     <table>
         <thead>
             <tr>
                 <th>#</th>
-                <th>Item name</th>
+                <th>Item Name</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Line Price</th>
@@ -83,50 +114,52 @@ function igpm_generate_invoice_pdf()
                 ?>
                 <tr>
                     <td><?= $i + 1 ?></td>
-                    <td><?= $item->product_name ?></td>
-                    <td><?= $item->quantity ?>         <?= $item->unit ?></td>
-                    <td>₨ <?= number_format($item->unit_price, 2) ?></td>
-                    <td>₨ <?= number_format($line, 2) ?></td>
-                    <td>(<?= $item->discount_percent ?>%)<br>₨ <?= number_format($disc, 2) ?></td>
-                    <td>₨ <?= number_format($final, 2) ?></td>
+                    <td><?= esc_html($item->product_name) ?></td>
+                    <td><?= $item->quantity . ' ' . esc_html($item->unit) ?></td>
+                    <td>Rs <?= number_format($item->unit_price, 2) ?></td>
+                    <td>Rs <?= number_format($line, 2) ?></td>
+                    <td>(<?= number_format($item->discount_percent, 0) ?>%)<br>Rs <?= number_format($disc, 2) ?></td>
+                    <td>Rs <?= number_format($final, 2) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 
-    <br><br>
-    <table class="summary" align="right" style="width: 40%;">
+    <table class="summary-table">
         <tr>
-            <td><strong>Sub Total:</strong></td>
-            <td>₨ <?= number_format($invoice->subtotal, 2) ?></td>
+            <td><strong>Sub Total</strong></td>
+            <td>Rs <?= number_format($invoice->subtotal, 2) ?></td>
         </tr>
         <tr>
-            <td><strong>Discount:</strong></td>
-            <td>₨ <?= number_format($invoice->total_discount, 2) ?></td>
+            <td><strong>Discount</strong></td>
+            <td>Rs <?= number_format($invoice->total_discount, 2) ?></td>
         </tr>
         <tr>
-            <td><strong>Round Off:</strong></td>
-            <td>₨ <?= number_format($invoice->round_off, 2) ?></td>
+            <td><strong>Round Off</strong></td>
+            <td>Rs <?= number_format($invoice->round_off, 2) ?></td>
         </tr>
         <tr>
-            <td><strong>Total:</strong></td>
-            <td><strong>₨ <?= number_format($invoice->total, 2) ?></strong></td>
+            <td><strong>Total</strong></td>
+            <td><strong>Rs <?= number_format($invoice->total, 2) ?></strong></td>
         </tr>
         <tr>
-            <td><strong>Received:</strong></td>
-            <td>₨ <?= number_format($invoice->received, 2) ?></td>
+            <td><strong>Received</strong></td>
+            <td>Rs <?= number_format($invoice->received, 2) ?></td>
         </tr>
         <tr>
-            <td><strong>Balance:</strong></td>
-            <td>₨ <?= number_format($invoice->balance, 2) ?></td>
+            <td><strong>Balance</strong></td>
+            <td>Rs <?= number_format($invoice->balance, 2) ?></td>
         </tr>
     </table>
 
-    <div style="clear: both;"></div>
-    <br><br>
-    <strong>Invoice Amount In Words:</strong> <?= $invoice->amount_in_words ?><br><br>
-    <strong>Terms And Conditions:</strong> Thanks for doing business with us!<br><br>
-    <div style="text-align: right;"><strong>For, A.G MARKETING</strong><br><em>Authorized Signatory</em></div>
+    <div class="footer">
+        <p><strong>Invoice Amount In Words:</strong> <?= esc_html($invoice->amount_in_words) ?></p>
+        <p><strong>Terms And Conditions:</strong> Thanks for doing business with us!</p>
+        <div class="signature">
+            <strong>For, A.G MARKETING</strong><br>
+            <em>Authorized Signatory</em>
+        </div>
+    </div>
 
     <?php
     $html = ob_get_clean();
