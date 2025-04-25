@@ -73,9 +73,11 @@ function igpm_invoices_list_page()
                             <td>
                                 <a href="<?php echo admin_url('admin.php?page=igpm_view_invoice&invoice_id=' . $inv->id) ?>"
                                     class="button button-small">View</a>
+                                <a href="<?php echo admin_url('admin.php?page=igpm_edit_invoice&invoice_id=' . $inv->id) ?>"
+                                    class="button button-small">Edit</a>
                                 <a href="<?php echo admin_url('admin-post.php?action=igpm_generate_pdf&invoice_id=' . $inv->id) ?>"
                                     class="button button-small" target="_blank">PDF</a>
-                                <a href="#" class="button button-small delete-invoice"
+                                <a href="#" class="button button-small delete-invoice danger"
                                     data-invoice-id="<?php echo $inv->id; ?>">Delete</a>
                             </td>
                         </tr>

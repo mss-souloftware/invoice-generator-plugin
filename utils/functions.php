@@ -3,6 +3,7 @@ require_once plugin_dir_path(__DIR__) . '/admin/create-invoice-page.php';
 require_once plugin_dir_path(__DIR__) . '/admin/products-page.php';
 require_once plugin_dir_path(__DIR__) . '/admin/invoices-list-page.php';
 require_once plugin_dir_path(__DIR__) . '/admin/view-invoice-page.php';
+require_once plugin_dir_path(__DIR__) . '/admin/edit-invoice-page.php';
 require_once plugin_dir_path(__DIR__) . '/admin/pdf-generator.php';
 
 
@@ -58,6 +59,16 @@ function igpm_register_admin_menu()
         'igpm_view_invoice',
         'igpm_view_invoice_page'
     );
+
+    add_submenu_page(
+        'igpm_dashboard',
+        'Edit Invoice',
+        '',
+        'manage_options',
+        'igpm_edit_invoice',
+        'igpm_edit_invoice_page'
+    );
+
 }
 
 
@@ -65,8 +76,15 @@ add_action('admin_enqueue_scripts', 'igpm_enqueue_admin_scripts');
 
 function igpm_enqueue_admin_scripts($hook)
 {
-    // Load script only on our invoice creation page
-    if ($hook !== 'toplevel_page_igpm_dashboard' && $hook !== 'invoice-generator_page_igpm_create_invoice') {
+    // Debug: uncomment to see $hook values
+    // error_log($hook);
+
+    // Load script on Create and Edit Invoice pages
+    if (
+        $hook !== 'toplevel_page_igpm_dashboard' &&
+        $hook !== 'invoice-generator_page_igpm_create_invoice' &&
+        $hook !== 'invoice-generator_page_igpm_edit_invoice'
+    ) {
         return;
     }
 
@@ -78,6 +96,7 @@ function igpm_enqueue_admin_scripts($hook)
         true
     );
 }
+
 
 
 // Handle AJAX request to delete invoice
