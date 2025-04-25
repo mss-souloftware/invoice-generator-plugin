@@ -112,10 +112,21 @@ function igpm_generate_invoice_pdf()
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($items as $i => $item):
+            <?php
+
+            $total_quantity = 0;
+            $total_discount = 0;
+            $total_after_discount = 0;
+
+            foreach ($items as $i => $item):
                 $line = $item->quantity * $item->unit_price;
                 $disc = $line * $item->discount_percent / 100;
                 $final = $line - $disc;
+
+                $total_quantity += $item->quantity;
+                $total_discount += $disc;
+                $total_after_discount += $final;
+
                 ?>
                 <tr>
                     <td><?= $i + 1 ?></td>
@@ -128,6 +139,16 @@ function igpm_generate_invoice_pdf()
                 </tr>
             <?php endforeach; ?>
         </tbody>
+        <tfoot>
+            <tr style="background-color: #c40000; color: #fff;">
+                <td colspan="2"><strong>Total</strong></td>
+                <td><strong><?= $total_quantity ?></strong></td>
+                <td></td>
+                <td></td>
+                <td><strong>Rs <?= number_format($total_discount, 2) ?></strong></td>
+                <td><strong>Rs <?= number_format($total_after_discount, 2) ?></strong></td>
+            </tr>
+        </tfoot>
     </table>
 
     <table class="summary-table">
