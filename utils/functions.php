@@ -78,3 +78,25 @@ function igpm_enqueue_admin_scripts($hook)
         true
     );
 }
+
+
+// Handle AJAX request to delete invoice
+add_action('wp_ajax_delete_invoice', 'igpm_delete_invoice');
+
+function igpm_delete_invoice()
+{
+    if (isset($_POST['invoice_id'])) {
+        global $wpdb;
+        $invoices_table = $wpdb->prefix . 'custom_invoices';
+
+        $invoice_id = intval($_POST['invoice_id']);
+        $result = $wpdb->delete($invoices_table, ['id' => $invoice_id]);
+
+        if ($result !== false) {
+            wp_send_json_success();
+        } else {
+            wp_send_json_error();
+        }
+    }
+    wp_die();
+}
