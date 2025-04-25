@@ -19,7 +19,7 @@ function igpm_invoices_list_page()
         $where .= " AND date <= '$end'";
     }
 
-    $query = "SELECT * FROM $invoices_table $where ORDER BY date DESC";
+    $query = "SELECT * FROM $invoices_table $where ORDER BY id  DESC";
     $invoices = $wpdb->get_results($query);
     // print_r($invoices)
 

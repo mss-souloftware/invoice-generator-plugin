@@ -73,7 +73,7 @@ function igpm_create_invoice_page()
                 </tr>
                 <tr>
                     <th>Address</th>
-                    <td><textarea name="customer_address" class="large-text" required></textarea></td>
+                    <td><input name="customer_address" class="regular-text" required></td>
                 </tr>
                 <tr>
                     <th>Date</th>
@@ -100,6 +100,7 @@ function igpm_create_invoice_page()
                     <tr class="product-row">
                         <td>
                             <select name="product[]" class="product-select">
+                                <option value="" disabled selected>Select you product</option>
                                 <?php foreach ($products as $p): ?>
                                     <option value="<?php echo esc_attr($p->name) ?>"
                                         data-unit="<?php echo esc_attr($p->unit) ?>"
@@ -115,7 +116,7 @@ function igpm_create_invoice_page()
                         <td><input type="text" name="unit_price[]" class="unit-price" readonly></td>
                         <td><input type="text" name="amount[]" class="amount" readonly></td>
                         <td>
-                            <input type="text" name="discount[]" class="discount">
+                            <input type="number" name="discount[]" class="discount">
                             <div class="discounted-amount" style="font-size: 11px; color: #0073aa;">Discount: ₨ 0.00</div>
                         </td>
 
@@ -137,7 +138,7 @@ function igpm_create_invoice_page()
                 </tr>
                 <tr>
                     <th>Round Off</th>
-                    <td><input name="round_off" class="regular-text" value="0.00"></td>
+                    <td><input type="number" step="0.01" name="round_off" class="regular-text" value="0.00"></td>
                 </tr>
                 <tr>
                     <th>Total</th>
@@ -145,7 +146,7 @@ function igpm_create_invoice_page()
                 </tr>
                 <tr>
                     <th>Received</th>
-                    <td><input name="received" class="regular-text" value="0.00"></td>
+                    <td><input type="number" name="received" class="regular-text" value="0.00"></td>
                 </tr>
                 <tr>
                     <th>Balance</th>

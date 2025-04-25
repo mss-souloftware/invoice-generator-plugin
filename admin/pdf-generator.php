@@ -25,7 +25,7 @@ function igpm_generate_invoice_pdf()
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-size: 16px;
             color: #000;
         }
 
@@ -38,11 +38,12 @@ function igpm_generate_invoice_pdf()
 
         .info {
             margin-top: 20px;
+            text-align: left;
         }
 
-        .info strong {
+        .info span {
             display: inline-block;
-            width: 100px;
+            margin-bottom: 10px;
         }
 
         table {
@@ -85,13 +86,17 @@ function igpm_generate_invoice_pdf()
         }
     </style>
 
-    <h1>A.G MARKETING Invoice</h1>
+    <h1>A.G MARKETING - Invoice</h1>
 
     <div class="info">
-        <strong>Bill To:</strong> <?= nl2br(esc_html($invoice->customer_name)) ?><br>
-        <strong>Address:</strong> <?= nl2br(esc_html($invoice->customer_address)) ?><br>
-        <strong>Invoice No.:</strong> <?= esc_html($invoice->invoice_no) ?><br>
-        <strong>Date:</strong> <?= date('d/m/Y', strtotime($invoice->date)) ?>
+        <span style="font-size: 18px;">
+            <strong>Bill To: <?= nl2br(esc_html($invoice->customer_name)) ?></strong></span><br>
+        <span>
+            <strong>Address:</strong> <?= nl2br(esc_html($invoice->customer_address)) ?></span><br>
+        <span>
+            <strong>Invoice No.:</strong> <?= esc_html($invoice->invoice_no) ?></span><br>
+        <span>
+            <strong>Date:</strong> <?= date('d/m/Y', strtotime($invoice->date)) ?></span>
     </div>
 
     <table>
@@ -100,10 +105,10 @@ function igpm_generate_invoice_pdf()
                 <th>#</th>
                 <th>Item Name</th>
                 <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Line Price</th>
+                <th>Price/Unit</th>
+                <th>Total Price</th>
                 <th>Discount</th>
-                <th>Amount</th>
+                <th>After Discount</th>
             </tr>
         </thead>
         <tbody>
@@ -153,7 +158,6 @@ function igpm_generate_invoice_pdf()
     </table>
 
     <div class="footer">
-        <p><strong>Invoice Amount In Words:</strong> <?= esc_html($invoice->amount_in_words) ?></p>
         <p><strong>Terms And Conditions:</strong> Thanks for doing business with us!</p>
         <div class="signature">
             <strong>For, A.G MARKETING</strong><br>
